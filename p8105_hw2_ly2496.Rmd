@@ -1,0 +1,8 @@
+---
+title: "p8105_hw2_ly2496"
+author: "Ling Yi"
+date: "9/23/2020"
+output: github_document
+---
+
+
