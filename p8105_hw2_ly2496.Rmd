@@ -93,3 +93,51 @@ nyc_transit_df = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv"
   
 ```
 
+##how many distinct stations
+
+```{r}
+nyc_transit_df %>% 
+  distinct(station_name) %>% 
+  count()
+
+
+##There are 356 disctinct stations
+```
+
+##how mnay distinct lines
+
+```{r}
+nyc_transit_df %>% 
+  distinct(line) %>% 
+  count()
+
+##there are 36 disctint subway lines
+```
+
+
+##how many statiosn are ada compliant
+
+```{r}
+filter(nyc_transit_df, ada =="TRUE") %>% nrow()
+
+##there are 468 stations that are ada compliant
+```
+
+##proportion of entrances/exist without vending
+
+```{r}
+nyc_transit_df %>% 
+    count(vending, entry) %>% 
+    group_by(entry) %>% 
+    transmute(vending, Percentage=n/sum(n)*100)
+## the proportion of stations with entrances but without vending is 3.93%
+## As TA about this
+```
+
+##
+
+
+
+
+
+
