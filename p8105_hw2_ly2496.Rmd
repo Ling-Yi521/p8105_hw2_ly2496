@@ -80,3 +80,16 @@ left_join(precip_df, month_df, by = "month")
 This data set contains information from the Mr. Trashwheel trash collector in Baltimore, Maryland. As trash enters the inner harbor, the trashwheel collects the trash, and stores it in a dumpster. The dataset contains information per year, month, and trash collected include some specific kinds of trash. There are a total of `r nrow(trashwheel_df)` in the final data set. Additional data sheets include month precipitation data. 
 
 The total precipitation for 2018 is `r precip_df %>%  filter(year=="2018") %>%  summarize(sum(total))`(in) and the medium number of sports balls in the dumpter in 2017 is `r trashwheel_df %>% filter (year=="2017") %>% summarize(median(sports_balls))`. 
+
+
+##problem 2
+
+```{r}
+nyc_transit_df = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
+  janitor::clean_names() %>% 
+  select(2:18, "vending", "ada") %>% 
+  mutate(entry = 
+    recode(entry, "YES"="TRUE", "NO"= "FALSE"))
+  
+```
+
