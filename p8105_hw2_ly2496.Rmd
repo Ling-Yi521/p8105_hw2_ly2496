@@ -85,7 +85,7 @@ The total precipitation for 2018 is `r precip_df %>%  filter(year=="2018") %>%  
 ##problem 2
 
 ```{r}
-nyc_transit_df = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
+nyc_transit_df = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
   janitor::clean_names() %>% 
   select(2:18, "vending", "ada") %>% 
   mutate(entry = 
@@ -134,7 +134,23 @@ nyc_transit_df %>%
 ## As TA about this
 ```
 
-##
+##Problem 3
+
+```{r}
+month_pol_df = 
+  read_csv("./data/problem_3/fivethirtyeight_datasets/pols-month.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(mon, into = c("year", "month", "day")) %>% 
+  mutate(
+    president = ifelse(prez_gop == 1, "gop", 
+                       ifelse(prez_dem == 1, "dem", "NA"))
+    ) %>% 
+  select(-c("prez_dem", "prez_gop", "day"))
+
+
+  
+```
+
 
 
 
