@@ -145,13 +145,62 @@ month_pol_df =
     president = ifelse(prez_gop == 1, "gop", 
                        ifelse(prez_dem == 1, "dem", "NA"))
     ) %>% 
-  select(-c("prez_dem", "prez_gop", "day"))
+  select(-c("prez_dem", "prez_gop", "day")) %>% 
+  mutate(
+    month = as.integer(month)
+  )
 
 
-  
+##add in month names
+month_pol_df = left_join(month_pol_df, month_df, by = "month") %>% 
+  select (-c("month"))
+
+```
+
+##improting snp data set
+
+
+```{r}
+
+snp_df = 
+  read_csv("./data/problem_3/fivethirtyeight_datasets/snp.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(date, into = c("year", "month", "day")) %>% 
+  select(-c("day")) %>% 
+  mutate(
+    month=as.integer(month)
+)
+
+##add in month names
+snp_df = left_join(snp_df, month_df, by = "month") %>% 
+  select (-c(month))
+
+
 ```
 
 
+```{r}
+unemploy_df = 
+  read_csv("./data/problem_3/fivethirtyeight_datasets/unemployment.csv") %>% 
+  pivot_longer(
+    Jan:Dec,
+    names_to = "month",
+    values_to = "unemployment_pct"
+  )
+
+
+month_abv_df=
+  tibble(
+    month_abv =  1:12,
+    month=month.abb,
+    month_name=month.name
+  ) 
+
+unemploy_df = left_join(unemploy_df, month_abv_df, by = "month") %>% 
+  select(-c("month_abv", "month")) %>% 
+  janitor::clean_names()
+
+```
 
 
 
