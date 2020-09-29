@@ -69,17 +69,19 @@ month_df=
   )
 
 precip_df = 
-  bind_rows(precip_2018, precip_2017) %>%  view
+  bind_rows(precip_2018, precip_2017)
 
 
 left_join(precip_df, month_df, by = "month")
 
+min(pull(trashwheel_df, year))
+
 ```
 
 
-This data set contains information from the Mr. Trashwheel trash collector in Baltimore, Maryland. As trash enters the inner harbor, the trashwheel collects the trash, and stores it in a dumpster. The dataset contains information per year, month, and trash collected include some specific kinds of trash. There are a total of `r nrow(trashwheel_df)` in the final data set. Additional data sheets include month precipitation data. 
+This data set contains information from the Mr. Trashwheel trash collector in Baltimore, Maryland. As trash enters the inner harbor, the trashwheel collects the trash, and stores it in a dumpster. The data set contains information per year, month, and trash collected include some specific kinds of trash. The variables included in this data set is `r names(trashwheel_df)`. There are a total of `r nrow(trashwheel_df)` observations in the final data set. The data set has information from `r min(pull(trashwheel_df, year))` to `r max(pull(trashwheel_df, year))`. Additional data sheets include month precipitation data. 
 
-The total precipitation for 2018 is `r precip_df %>%  filter(year=="2018") %>%  summarize(sum(total))`(in) and the medium number of sports balls in the dumpter in 2017 is `r trashwheel_df %>% filter (year=="2017") %>% summarize(median(sports_balls))`. 
+The total precipitation for 2018 is `r precip_df %>%  filter(year=="2018") %>%  summarize(sum(total))`(in) and the medium number of sports balls in the dumpster in 2017 is `r trashwheel_df %>% filter (year=="2017") %>% summarize(median(sports_balls))`. 
 
 
 ##problem 2
@@ -101,33 +103,18 @@ nyc_transit_df = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv"
 
 ##how many distinct stations
 
-```{r}
-nyc_transit_df %>% 
-  distinct(station_name) %>% 
-  count()
+There are `r nyc_transit_df %>% distinct(station_name) %>% count()` stations in nyc.
 
-
-##There are 356 distinct stations
-```
 
 ##how many distinct lines
 
-```{r}
-nyc_transit_df %>% 
-  distinct(line) %>% 
-  count()
-
-##there are 36 distinct subway lines
-```
+There are `r nyc_transit_df %>% distinct(line) %>% count()` subway lines
 
 
 ##how many statiosn are ada compliant
 
-```{r}
-filter(nyc_transit_df, ada =="TRUE") %>% nrow()
+There are `r filter(nyc_transit_df, ada =="TRUE") %>% nrow()` stations that are ada compliant
 
-##there are 468 stations that are ada compliant
-```
 ##proportion of entrances/exist without vending
 
 ```{r}
