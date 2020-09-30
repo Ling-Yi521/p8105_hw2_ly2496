@@ -115,14 +115,8 @@ There are `r filter(nyc_transit_df, ada =="TRUE") %>% nrow()` stations that are 
 
 ##proportion of entrances/exist without vending
 
-```{r}
-nyc_transit_df %>%
-    count(vending, entry) %>% 
-    group_by(entry) %>% 
-    transmute(vending, Percentage=n/sum(n)*100)
-## the proportion of stations with entrances but without vending is 3.93%
-## Ask TA about this
-```
+The proportions of stations without vending but has entrances is `r filter(nyc_transit_df, vending == "NO" & entry =="TRUE") %>% count()/ filter(nyc_transit_df, vending == "NO") %>% count()`
+
 
 ##reformatting the route variable
 
@@ -139,7 +133,7 @@ nyc_transit_df =
 
 ```
 
-There are `r filter(nyc_transit_df, route_name =="A") %>% distinct(station_name) %>% count()` stations that serve the A train. 
+There are `r filter(nyc_transit_df, route_name =="A") %>% distinct(station_name) %>% count()` distinct stations that serve the A train. 
 
 Of the stations that serve train A, there are `r filter(nyc_transit_df, route_name =="A") %>% filter(ada =="TRUE") %>% count()` that are ada compliant. 
 
