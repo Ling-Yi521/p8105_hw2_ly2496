@@ -74,8 +74,6 @@ precip_df =
 
 left_join(precip_df, month_df, by = "month")
 
-min(pull(trashwheel_df, year))
-
 ```
 
 
@@ -118,7 +116,7 @@ There are `r filter(nyc_transit_df, ada =="TRUE") %>% nrow()` stations that are 
 ##proportion of entrances/exist without vending
 
 ```{r}
-nyc_transit_df %>% 
+nyc_transit_df %>%
     count(vending, entry) %>% 
     group_by(entry) %>% 
     transmute(vending, Percentage=n/sum(n)*100)
@@ -126,8 +124,7 @@ nyc_transit_df %>%
 ## Ask TA about this
 ```
 
-
-##reformatting route variables
+##reformatting the route variable
 
 ```{r}
 nyc_transit_df = 
@@ -141,6 +138,11 @@ nyc_transit_df =
   select (-c("route"))
 
 ```
+
+There are `r filter(nyc_transit_df, route_name =="A") %>% distinct(station_name) %>% count()` stations that serve the A train. 
+
+Of the stations that serve train A, there are `r filter(nyc_transit_df, route_name =="A") %>% filter(ada =="TRUE") %>% count()` that are ada compliant. 
+
 
 ##Problem 3
 
@@ -225,6 +227,17 @@ list(unemploy_df)
 final_df = left_join(combined_df, unemploy_df, by = c("year", "month_name"))
 ```
 
+
+##describing the data set
+
+The data sets are sourced from the FiveThrityEight website and we used three data sets in the code above. The variables in the unemployment dataset are `r names(unemploy_df)`. There is a total of `r nrow(unemploy_df)` observations in this data set. The dataset contains information from the year `r min(pull(unemploy_df, year))` to the year `r max(pull(unemploy_df, year))`. Between this time range, the mean percent of unemployment is `r mean(pull(unemploy_df, unemployment_pct), na.rm=TRUE)`. There is a total of `r sum(is.na(unemploy_df))` missing values in this data set. 
+
+The other data set (snp_df) is about stock values. The variables in this data set are `r names(snp_df)` and there is a total of `r nrow(snp_df)` observations in this data set. The variable "close" means the closing values of the S&P stock index on the associated date. The data in the data set ranges from `r min(pull(snp_df, year))` to `r max(pull(snp_df, year))`. The mean closing value for this time period is `r mean(pull(snp_df, close), na.rm=TRUE)` with a minimum of `r min(pull(snp_df, close), na.rm = TRUE)` and a max of `r max(pull(snp_df, close), na.rm = TRUE)`. There is a total of `r sum(is.na(snp_df))` missing values in this data set. 
+
+The third data set (month_pol_df) is about the number of national politicians who are democratic or republican at any given time. The variables in this data set are `r names(month_pol_df)` and there is a total of `r nrow(month_pol_df)` observations in this data set. The data in the data set ranges from `r min(pull(month_pol_df, year))` to `r max(pull(month_pol_df, year))`. There is a total of `r sum(is.na(month_pol_df))` missing values in this data set. 
+
+
+When combining all three data sets together, the resulting data set consists of `r nrow(final_df)` observations. The variables in this data set are `r names(final_df)` after combining by year and month. The resulting dataset have a total of `r sum(is.na(final_df))` missing values.
 
 
 
