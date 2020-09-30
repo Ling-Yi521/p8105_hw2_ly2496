@@ -79,7 +79,7 @@ left_join(precip_df, month_df, by = "month")
 
 This data set contains information from the Mr. Trashwheel trash collector in Baltimore, Maryland. As trash enters the inner harbor, the trashwheel collects the trash, and stores it in a dumpster. The data set contains information per year, month, and trash collected include some specific kinds of trash. The variables included in this data set is `r names(trashwheel_df)`. There are a total of `r nrow(trashwheel_df)` observations in the final data set. The data set has information from `r min(pull(trashwheel_df, year))` to `r max(pull(trashwheel_df, year))`. Additional data sheets include month precipitation data. 
 
-The total precipitation for 2018 is `r precip_df %>%  filter(year=="2018") %>%  summarize(sum(total))`(in) and the medium number of sports balls in the dumpster in 2017 is `r trashwheel_df %>% filter (year=="2017") %>% summarize(median(sports_balls))`. 
+The total precipitation for 2018 is `r precip_df %>%  filter(year=="2018") %>%  summarize(sum(total))`(in) and the median number of sports balls in the dumpster in 2017 is `r trashwheel_df %>% filter (year=="2017") %>% summarize(median(sports_balls))`. 
 
 
 ##problem 2
@@ -109,9 +109,18 @@ There are `r nyc_transit_df %>% distinct(station_name) %>% count()` stations in 
 There are `r nyc_transit_df %>% distinct(line) %>% count()` subway lines
 
 
-##how many statiosn are ada compliant
+##how many stations are ada compliant
 
-There are `r filter(nyc_transit_df, ada =="TRUE") %>% nrow()` stations that are ada compliant
+There are `r filter(nyc_transit_df, ada =="TRUE") %>% distinct(line, station_name) %>% count()` distinct stations and lines that are ada compliant
+
+```{r}
+
+filter(nyc_transit_df, ada =="TRUE") %>% 
+  distinct(line, station_name) %>% 
+  count()
+
+```
+
 
 ##proportion of entrances/exist without vending
 
@@ -135,7 +144,7 @@ nyc_transit_df =
 
 There are `r filter(nyc_transit_df, route_name =="A") %>% distinct(station_name) %>% count()` distinct stations that serve the A train. 
 
-Of the stations that serve train A, there are `r filter(nyc_transit_df, route_name =="A") %>% filter(ada =="TRUE") %>% count()` that are ada compliant. 
+Of the stations that serve train A, there are `r filter(nyc_transit_df, route_name =="A") %>% filter(ada =="TRUE") %>% distinct(station_name) %>%  count()` that are ada compliant. 
 
 
 ##Problem 3
