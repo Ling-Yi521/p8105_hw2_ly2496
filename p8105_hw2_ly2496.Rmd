@@ -104,22 +104,9 @@ nyc_transit_df = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv"
 There are `r nyc_transit_df %>% distinct(line, station_name) %>% count()` stations in nyc.
 
 
-##how many distinct lines
-
-There are `r nyc_transit_df %>% distinct(line) %>% count()` subway lines
-
-
 ##how many stations are ada compliant
 
 There are `r filter(nyc_transit_df, ada =="TRUE") %>% distinct(line, station_name) %>% count()` distinct stations and lines that are ada compliant
-
-```{r}
-
-filter(nyc_transit_df, ada =="TRUE") %>% 
-  distinct(line, station_name) %>% 
-  count()
-
-```
 
 
 ##proportion of entrances/exist without vending
@@ -140,7 +127,6 @@ The proportions of stations without vending but has entrances is `r filter(nyc_t
   separate(route, into = c("route", "route_number"), sep = 5) %>% 
   select (-c("route"))
 
-filter(nyc_transit_df, route_name =="A") %>% distinct(line, station_name) %>% count()
 ```
 
 There are `r filter(nyc_transit_df, route_name =="A") %>% distinct(line, station_name) %>% count()` distinct stations that serve the A train. 
@@ -226,7 +212,6 @@ unemploy_df = left_join(unemploy_df, month_abv_df, by = "month") %>%
 ```{r}
 
 combined_df = left_join(month_pol_df, snp_df, by = c("year", "month_name"))
-list(unemploy_df)
 
 final_df = left_join(combined_df, unemploy_df, by = c("year", "month_name"))
 ```
@@ -234,14 +219,8 @@ final_df = left_join(combined_df, unemploy_df, by = c("year", "month_name"))
 
 ##describing the data set
 
-The data sets are sourced from the FiveThrityEight website and we used three data sets in the code above. The variables in the unemployment dataset are `r names(unemploy_df)`. There is a total of `r nrow(unemploy_df)` observations in this data set. The data set contains information from the year `r min(pull(unemploy_df, year))` to the year `r max(pull(unemploy_df, year))`. Between this time range, the mean percent of unemployment is `r mean(pull(unemploy_df, unemployment_pct), na.rm=TRUE)`. There is a total of `r sum(is.na(unemploy_df))` missing values in this data set. 
 
-The other data set (snp_df) is about stock values. The variables in this data set are `r names(snp_df)` and there is a total of `r nrow(snp_df)` observations in this data set. The variable "close" means the closing values of the S&P stock index on the associated date. The data in the data set ranges from `r min(pull(snp_df, year))` to `r max(pull(snp_df, year))`. The mean closing value for this time period is `r mean(pull(snp_df, close), na.rm=TRUE)` with a minimum of `r min(pull(snp_df, close), na.rm = TRUE)` and a max of `r max(pull(snp_df, close), na.rm = TRUE)`. There is a total of `r sum(is.na(snp_df))` missing values in this data set. 
-
-The third data set (month_pol_df) is about the number of national politicians who are democratic or republican at any given time. The variables in this data set are `r names(month_pol_df)` and there is a total of `r nrow(month_pol_df)` observations in this data set. The data in the data set ranges from `r min(pull(month_pol_df, year))` to `r max(pull(month_pol_df, year))`. There is a total of `r sum(is.na(month_pol_df))` missing values in this data set. 
-
-
-When combining all three data sets together, the resulting data set consists of `r nrow(final_df)` observations. The variables in this data set are `r names(final_df)` after combining by year and month. The resulting dataset have a total of `r sum(is.na(final_df))` missing values.
+The final data set contains three separate data sets, unemploy_df contains unemployment percentage, snp_df contains information about the closing values of the S&P stock index on the associated date, and month_pol_df contains information about the number of national politicians who are democratic or republican at any given time. When combining all three data sets together by month and year, the resulting data set (final_df) consists of `r nrow(final_df)` observations. The variables in this data set are `r names(final_df)`. The resulting data set contains information from the year `r min(pull(final_df, year))` to `r max(pull(final_df, year))` have a total of `r sum(is.na(final_df))` missing values. Between this time range, the mean percent of unemployment is `r mean(pull(final_df, unemployment_pct), na.rm=TRUE)`, The mean closing value for this time period is `r mean(pull(final_df, close), na.rm=TRUE)`.
 
 
 
